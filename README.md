@@ -110,3 +110,80 @@ Response:
 
 ```
 
+
+API Endpoints
+
+All endpoints are authenticated using Sanctum and are under the /api/v1 route prefix.
+
+1. Add Team Availability
+
+Method: POST
+
+Endpoint: /v1/teams/{id}/availability
+
+Description: Adds a recurring weekly availability schedule for a specific team.
+
+Authentication: Required.
+
+Request Body Example:
+
+{
+"day_of_week": "monday",
+"start_time": "09:00",
+"end_time": "17:00"
+}
+
+2. Generate Available Slots
+
+Method: GET
+
+Endpoint: /v1/teams/{id}/generate-slots
+
+Description: Returns a list of available slots for a given team, based on its weekly availability and existing bookings.
+
+Authentication: Required.
+
+Query Parameters:
+
+from: The start date (e.g., 2025-06-01)
+
+to: The end date (e.g., 2025-06-07)
+
+3. Create a New Booking
+
+Method: POST
+
+Endpoint: /v1/bookings
+
+Description: Creates a new booking. It checks for time conflicts before saving.
+
+Authentication: Required.
+
+Request Body Example:
+
+{
+"team_id": 1,
+"start_time": "2025-06-02 09:00:00",
+"end_time": "2025-06-02 10:00:00"
+}
+
+4. List Bookings
+
+Method: GET
+
+Endpoint: /v1/bookings
+
+Description: Returns a list of all bookings for the authenticated user.
+
+Authentication: Required.
+
+5. Cancel a Booking
+
+Method: DELETE
+
+Endpoint: /v1/bookings/{id}
+
+Description: Cancels a specific booking.
+
+Authentication: Required.
+

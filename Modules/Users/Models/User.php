@@ -1,20 +1,26 @@
 <?php
 
-namespace App\Models;
+namespace Modules\Users\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Booking\Models\Booking;
 use Modules\Tenants\Models\Tenant;
+use Modules\Users\database\factories\UserFactory;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
+    }
+
+    /** @use HasFactory<\Modules\Users\database\factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens, HasRoles;
     protected $fillable = [
         'name',
@@ -38,5 +44,10 @@ class User extends Authenticatable
     public function tenant(): BelongsTo
     {
         return $this->belongsTo(Tenant::class);
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
     }
 }
